@@ -8,6 +8,9 @@ const style = {
 }
 
 class App extends Component {
+  state = {
+    color: '0000ff'
+  }
   componentDidMount() {
     this.sceneSetup()
     this.addCustomSceneObjects()
@@ -50,7 +53,7 @@ class App extends Component {
   addCustomSceneObjects = () => {
     const geometry = new THREE.BoxGeometry(2, 2, 2)
     const material = new THREE.MeshPhongMaterial({
-      color: 0x156289,
+      color: parseInt(`0x${this.state.color}`, 16),
       emissive: 0x072534,
       side: THREE.DoubleSide,
       flatShading: true
@@ -97,7 +100,14 @@ class App extends Component {
   }
 
   render() {
-    return <div style={style} ref={ref => (this.el = ref)} />
+    return (
+      <>
+        <div style={style} ref={ref => (this.el = ref)} />
+        <button onClick={() => this.setState({ color: 'ffff00' })}>
+          Change Color
+        </button>
+      </>
+    )
   }
 }
 
