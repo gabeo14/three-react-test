@@ -9,7 +9,7 @@ const style = {
 
 class App extends Component {
   state = {
-    color: '0000ff'
+    color: '0000FF'
   }
   componentDidMount() {
     this.sceneSetup()
@@ -51,15 +51,18 @@ class App extends Component {
   // Code below is taken from Three.js BoxGeometry example
   // https://threejs.org/docs/#api/en/geometries/BoxGeometry
   addCustomSceneObjects = () => {
+    let hex = this.state.color
     const geometry = new THREE.BoxGeometry(2, 2, 2)
     const material = new THREE.MeshPhongMaterial({
-      color: parseInt(`0x${this.state.color}`, 16),
+      color: parseInt(`0x${hex}`, 16),
       emissive: 0x072534,
       side: THREE.DoubleSide,
       flatShading: true
     })
+    material.auto = true
     this.cube = new THREE.Mesh(geometry, material)
     this.scene.add(this.cube)
+    console.log(this.cube.material.color, hex)
 
     const lights = []
     lights[0] = new THREE.PointLight(0xffffff, 1, 0)
@@ -103,7 +106,12 @@ class App extends Component {
     return (
       <>
         <div style={style} ref={ref => (this.el = ref)} />
-        <button onClick={() => this.setState({ color: 'ffff00' })}>
+        <button
+          onClick={() => (
+            this.setState({ color: 'FFFF00' }),
+            console.log(this.cube.material.color, this.state.color)
+          )}
+        >
           Change Color
         </button>
       </>
